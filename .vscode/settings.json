@@ -1,0 +1,21 @@
+/* This settings is required for tailwind autosuggestion for 'twrnc' */
+
+{
+	"tailwindCSS.classAttributes": [
+		"class",
+		"className",
+		"ngClass",
+		"style",
+		"tw"
+	],
+	"tailwindCSS.experimental.classRegex": [
+		"tw`([^`]*)",
+		"TW`([^`]*)",
+		[
+			"tw.style\\(([^)]*)\\)",
+			"'([^']*)'",
+			"tw.(\\w+)\\(([^)]*)\\)",
+			"([\"'])([^\"']*)\\1"
+		]
+	]
+}
