@@ -55,7 +55,9 @@ export default function SignupScreen() {
         <Text style={tw`text-[#A97A4D] font-semibold mb-1`}>Confirm password</Text>
         <TextInput placeholder="Re-enter password" placeholderTextColor="#A97A4D" secureTextEntry style={tw`bg-[#3A2B1A] rounded-lg px-4 py-3 mb-6 text-white`} />
         {/* Create Account Button */}
-        <TouchableOpacity style={tw`bg-primary rounded-full py-3 mb-4 flex-row items-center justify-center`}>
+        <TouchableOpacity style={tw`bg-primary rounded-full py-3 mb-4 flex-row items-center justify-center`}
+          onPress={() => router.replace('/auth/nickname')}
+        >
           <Text style={tw`text-white text-center text-base font-semibold`}>Create account</Text>
         </TouchableOpacity>
       </View>
