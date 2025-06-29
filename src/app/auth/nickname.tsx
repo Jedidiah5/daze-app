@@ -57,7 +57,7 @@ export default function NicknameScreen() {
         <TouchableOpacity
           style={tw`${canContinue ? 'bg-primary' : 'bg-[#A97A4D] opacity-50'} rounded-full py-3 mb-4`}
           disabled={!canContinue}
-          onPress={() => {/* handle continue, e.g., save and navigate */}}
+          onPress={() => router.replace('/(tabs)/home')}
         >
           <Text style={tw`text-white text-center text-base font-semibold`}>Continue</Text>
         </TouchableOpacity>

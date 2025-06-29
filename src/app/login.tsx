@@ -45,7 +45,7 @@ export default function LoginScreen() {
         <TouchableOpacity>
           <Text style={tw`text-[#A97A4D] text-sm mb-6`}>Forgot password?</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={tw`bg-primary rounded-full py-3 mb-8`}>
+        <TouchableOpacity style={tw`bg-primary rounded-full py-3 mb-8`} onPress={() => router.replace('/(tabs)/home')}>
           <Text style={tw`text-white text-center text-base font-semibold`}>Login</Text>
         </TouchableOpacity>
       </View>
