@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 import tw from '@/lib/tailwind';
+import QuestionIcon from '@/components/UI/Icons/question-icon';
 
 export default function OnboardingScreen() {
   const [showIntro, setShowIntro] = useState(false);
@@ -10,6 +11,12 @@ export default function OnboardingScreen() {
   if (!showIntro) {
     return (
       <View style={tw`flex-1 bg-background justify-center items-center`}>
+        <View style={tw`absolute top-12 right-6 z-10`}>
+          <TouchableOpacity>
+            <QuestionIcon tw="w-6 h-6" fill="#A97A4D" />
+          </TouchableOpacity>
+        </View>
+        
         <Image
           source={require('../../assets/images/logo.png')}
           style={tw`w-24 h-24`}
@@ -27,6 +34,12 @@ export default function OnboardingScreen() {
 
   return (
     <View style={tw`flex-1 bg-background justify-end`}> 
+      <View style={tw`absolute top-12 right-6 z-10`}>
+        <TouchableOpacity>
+          <QuestionIcon tw="w-6 h-6" fill="#A97A4D" />
+        </TouchableOpacity>
+      </View>
+      
       <View style={tw`rounded-t-3xl px-8 pt-10 pb-10 flex-col h-[70%]`}> 
         <View style={tw`items-center`}> 
           <View style={tw`bg-background rounded-full p-4 -mt-16`}> 
@@ -42,7 +55,7 @@ export default function OnboardingScreen() {
         <View style={tw`flex-1 justify-end`}> 
           <TouchableOpacity
             style={tw`w-full bg-primary rounded-full py-3 mb-4`}
-            onPress={() => router.replace('/login')}
+            onPress={() => router.replace('/auth/signup')}
           >
             <Text style={tw`text-white text-center text-base font-semibold`}>Get started</Text>
           </TouchableOpacity>
