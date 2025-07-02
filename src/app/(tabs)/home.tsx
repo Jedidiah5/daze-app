@@ -11,21 +11,21 @@ const countdowns = [
     category: 'Vacation',
     title: 'Trip to the beach',
     daysLeft: 12,
-    image: require('../../../assets/images/splash-icon.png'),
+    image: require('../../../assets/images/beach.png'),
   },
   {
     id: '2',
     category: 'Birthday',
     title: "Sophia's Birthday",
     daysLeft: 35,
-    image: require('../../../assets/images/logo2.png'),
+    image: require('../../../assets/images/birthday.png'),
   },
   {
     id: '3',
     category: 'Anniversary',
     title: 'Our Anniversary',
     daysLeft: 100,
-    image: require('../../../assets/images/logo.png'),
+    image: require('../../../assets/images/annivesary.png'),
   },
 ];
 
