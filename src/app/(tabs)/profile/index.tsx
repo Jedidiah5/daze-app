@@ -6,10 +6,14 @@ import BottomNav from '../bottom-nav';
 import { useRouter } from 'expo-router';
 
 type UserData = {
-  username: string;
+  firstName: string;
+  lastName: string;
   email: string;
-  name: string;
-  avatar: string;
+  username: string;
+  nickname: string;
+  fullName: string;
+  avatar: any; // This will be a require() statement for local images
+  profileImageIndex: number;
   joinedDate: string;
 };
 
@@ -106,15 +110,34 @@ export default function ProfileScreen() {
       {userData && (
         <TouchableOpacity style={tw`flex-row items-center py-4 mb-6`}>
           <Image
-            source={{ uri: userData.avatar }}
+            source={userData.avatar}
             style={tw`w-16 h-16 rounded-full mr-4 bg-[#3A2C20]`}
           />
           <View style={tw`flex-1`}>
             <Text style={tw`text-white text-lg font-bold`}>Profile</Text>
-            <Text style={tw`text-[#A97A4D] text-sm`}>{userData.name}</Text>
+            <Text style={tw`text-[#A97A4D] text-sm`}>{userData.fullName}</Text>
             <Text style={tw`text-[#A97A4D] text-xs`}>{formatJoinedDate(userData.joinedDate)}</Text>
           </View>
         </TouchableOpacity>
+      )}
+
+      {/* User Details Section */}
+      {userData && (
+        <View style={tw`mb-6`}>
+          <Text style={tw`text-white text-base font-semibold mb-3`}>Account Details</Text>
+          <View style={tw`bg-[#3A2C20] rounded-lg p-4 mb-3`}>
+            <Text style={tw`text-[#A97A4D] text-xs mb-1`}>Email</Text>
+            <Text style={tw`text-white text-sm`}>{userData.email}</Text>
+          </View>
+          <View style={tw`bg-[#3A2C20] rounded-lg p-4 mb-3`}>
+            <Text style={tw`text-[#A97A4D] text-xs mb-1`}>Username</Text>
+            <Text style={tw`text-white text-sm`}>{userData.nickname}</Text>
+          </View>
+          <View style={tw`bg-[#3A2C20] rounded-lg p-4`}>
+            <Text style={tw`text-[#A97A4D] text-xs mb-1`}>Full Name</Text>
+            <Text style={tw`text-white text-sm`}>{userData.fullName}</Text>
+          </View>
+        </View>
       )}
 
       {/* Additional Options */}

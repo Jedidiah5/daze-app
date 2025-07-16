@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image, KeyboardAvoidingView, Platform } from 'react-native';
 import { useRouter } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import tw from '@/lib/tailwind';
 import BackArrow from '@/components/UI/Icons/back-arrow';
 
@@ -10,12 +11,61 @@ const profileImages = [
   require('../../../assets/images/profile3.png'),
 ];
 
+type SignupData = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+};
+
 export default function NicknameScreen() {
   const router = useRouter();
   const [nickname, setNickname] = useState('');
   const [selectedProfile, setSelectedProfile] = useState<number | null>(null);
+  const [signupData, setSignupData] = useState<SignupData | null>(null);
 
   const canContinue = nickname.trim().length > 0 && selectedProfile !== null;
+
+  useEffect(() => {
+    const loadSignupData = async () => {
+      try {
+        const data = await AsyncStorage.getItem('tempSignupData');
+        if (data) {
+          setSignupData(JSON.parse(data));
+        }
+      } catch (error) {
+        console.error('Error loading signup data:', error);
+      }
+    };
+    loadSignupData();
+  }, []);
+
+  const handleContinue = async () => {
+    if (!signupData || !canContinue) return;
+
+    // Combine signup data with nickname and profile picture
+    const userData = {
+      firstName: signupData.firstName,
+      lastName: signupData.lastName,
+      email: signupData.email,
+      username: nickname.trim(),
+      nickname: nickname.trim(),
+      fullName: `${signupData.firstName} ${signupData.lastName}`,
+      avatar: profileImages[selectedProfile!],
+      profileImageIndex: selectedProfile,
+      joinedDate: new Date().toISOString(),
+    };
+
+    try {
+      // Store complete user data
+      await AsyncStorage.setItem('userData', JSON.stringify(userData));
+      // Clean up temporary signup data
+      await AsyncStorage.removeItem('tempSignupData');
+      router.replace('/(tabs)/home');
+    } catch (error) {
+      console.error('Error storing user data:', error);
+    }
+  };
 
   return (
     <KeyboardAvoidingView
@@ -57,7 +107,7 @@ export default function NicknameScreen() {
         <TouchableOpacity
           style={tw`${canContinue ? 'bg-primary' : 'bg-[#A97A4D] opacity-50'} rounded-full py-3 mb-4`}
           disabled={!canContinue}
-          onPress={() => router.replace('/(tabs)/home')}
+          onPress={handleContinue}
         >
           <Text style={tw`text-white text-center text-base font-semibold`}>Continue</Text>
         </TouchableOpacity>
