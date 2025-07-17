@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, Switch, Image, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, Switch, Image, Alert, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import tw from '@/lib/tailwind';
 import BottomNav from '../bottom-nav';
@@ -77,96 +77,100 @@ export default function ProfileScreen() {
     <View style={tw`flex-1 bg-background pt-12 px-4`}>
       {/* Header */}
       <View style={tw`flex-row items-center justify-between mb-6`}>
-        <View style={{ width: 32 }} />
+        <TouchableOpacity onPress={() => router.back()} style={tw`w-8 h-8 items-center justify-center`}>
+          <Text style={tw`text-white text-2xl`}>×</Text>
+        </TouchableOpacity>
         <Text style={tw`text-white text-lg font-bold`}>Countdown</Text>
         <TouchableOpacity>
           <Text style={tw`text-white text-2xl`}>⚙️</Text>
         </TouchableOpacity>
       </View>
 
-      {/* Settings Options */}
-      <View style={tw`mb-6`}>
-        <View style={tw`flex-row items-center justify-between py-4 border-b border-[#3A2C20]`}>
-          <Text style={tw`text-white text-base`}>Dark Mode</Text>
-          <Switch
-            value={darkMode}
-            onValueChange={setDarkMode}
-            trackColor={{ false: '#3A2C20', true: '#F7931A' }}
-            thumbColor={darkMode ? '#fff' : '#fff'}
-          />
-        </View>
-        <View style={tw`flex-row items-center justify-between py-4 border-b border-[#3A2C20]`}>
-          <Text style={tw`text-white text-base`}>Countdown Reminder</Text>
-          <Switch
-            value={countdownReminder}
-            onValueChange={setCountdownReminder}
-            trackColor={{ false: '#3A2C20', true: '#F7931A' }}
-            thumbColor={countdownReminder ? '#fff' : '#fff'}
-          />
-        </View>
-      </View>
-
-      {/* Profile Section */}
-      {userData && (
-        <TouchableOpacity style={tw`flex-row items-center py-4 mb-6`}>
-          <Image
-            source={userData.avatar}
-            style={tw`w-16 h-16 rounded-full mr-4 bg-[#3A2C20]`}
-          />
-          <View style={tw`flex-1`}>
-            <Text style={tw`text-white text-lg font-bold`}>Profile</Text>
-            <Text style={tw`text-[#A97A4D] text-sm`}>{userData.fullName}</Text>
-            <Text style={tw`text-[#A97A4D] text-xs`}>{formatJoinedDate(userData.joinedDate)}</Text>
-          </View>
-        </TouchableOpacity>
-      )}
-
-      {/* User Details Section */}
-      {userData && (
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false}>
+        {/* Settings Options */}
         <View style={tw`mb-6`}>
-          <Text style={tw`text-white text-base font-semibold mb-3`}>Account Details</Text>
-          <View style={tw`bg-[#3A2C20] rounded-lg p-4 mb-3`}>
-            <Text style={tw`text-[#A97A4D] text-xs mb-1`}>Email</Text>
-            <Text style={tw`text-white text-sm`}>{userData.email}</Text>
+          <View style={tw`flex-row items-center justify-between py-4 border-b border-[#3A2C20]`}>
+            <Text style={tw`text-white text-base`}>Dark Mode</Text>
+            <Switch
+              value={darkMode}
+              onValueChange={setDarkMode}
+              trackColor={{ false: '#3A2C20', true: '#F7931A' }}
+              thumbColor={darkMode ? '#fff' : '#fff'}
+            />
           </View>
-          <View style={tw`bg-[#3A2C20] rounded-lg p-4 mb-3`}>
-            <Text style={tw`text-[#A97A4D] text-xs mb-1`}>Username</Text>
-            <Text style={tw`text-white text-sm`}>{userData.nickname}</Text>
-          </View>
-          <View style={tw`bg-[#3A2C20] rounded-lg p-4`}>
-            <Text style={tw`text-[#A97A4D] text-xs mb-1`}>Full Name</Text>
-            <Text style={tw`text-white text-sm`}>{userData.fullName}</Text>
+          <View style={tw`flex-row items-center justify-between py-4 border-b border-[#3A2C20]`}>
+            <Text style={tw`text-white text-base`}>Countdown Reminder</Text>
+            <Switch
+              value={countdownReminder}
+              onValueChange={setCountdownReminder}
+              trackColor={{ false: '#3A2C20', true: '#F7931A' }}
+              thumbColor={countdownReminder ? '#fff' : '#fff'}
+            />
           </View>
         </View>
-      )}
 
-      {/* Additional Options */}
-      <View style={tw`mb-6`}>
-        <TouchableOpacity style={tw`flex-row items-center justify-between py-4 border-b border-[#3A2C20]`}>
-          <Text style={tw`text-white text-base`}>Notifications</Text>
-          <Text style={tw`text-[#A97A4D] text-sm`}>›</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={tw`flex-row items-center justify-between py-4 border-b border-[#3A2C20]`}>
-          <Text style={tw`text-white text-base`}>Privacy</Text>
-          <Text style={tw`text-[#A97A4D] text-sm`}>›</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={tw`flex-row items-center justify-between py-4 border-b border-[#3A2C20]`}>
-          <Text style={tw`text-white text-base`}>Help & Support</Text>
-          <Text style={tw`text-[#A97A4D] text-sm`}>›</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={tw`flex-row items-center justify-between py-4 border-b border-[#3A2C20]`}>
-          <Text style={tw`text-white text-base`}>About</Text>
-          <Text style={tw`text-[#A97A4D] text-sm`}>›</Text>
-        </TouchableOpacity>
-      </View>
+        {/* Profile Section */}
+        {userData && (
+          <TouchableOpacity style={tw`flex-row items-center py-4 mb-6`}>
+            <Image
+              source={userData.avatar}
+              style={tw`w-16 h-16 rounded-full mr-4 bg-[#3A2C20]`}
+            />
+            <View style={tw`flex-1`}>
+              <Text style={tw`text-white text-lg font-bold`}>Profile</Text>
+              <Text style={tw`text-[#A97A4D] text-sm`}>{userData.fullName}</Text>
+              <Text style={tw`text-[#A97A4D] text-xs`}>{formatJoinedDate(userData.joinedDate)}</Text>
+            </View>
+          </TouchableOpacity>
+        )}
 
-      {/* Logout Button */}
-      <TouchableOpacity
-        style={tw`bg-[#3A2C20] rounded-lg py-3 items-center mt-auto mb-20`}
-        onPress={handleLogout}
-      >
-        <Text style={tw`text-red-500 text-base font-semibold`}>Logout</Text>
-      </TouchableOpacity>
+        {/* User Details Section */}
+        {userData && (
+          <View style={tw`mb-6`}>
+            <Text style={tw`text-white text-base font-semibold mb-3`}>Account Details</Text>
+            <View style={tw`bg-[#3A2C20] rounded-lg p-4 mb-3`}>
+              <Text style={tw`text-[#A97A4D] text-xs mb-1`}>Email</Text>
+              <Text style={tw`text-white text-sm`}>{userData.email}</Text>
+            </View>
+            <View style={tw`bg-[#3A2C20] rounded-lg p-4 mb-3`}>
+              <Text style={tw`text-[#A97A4D] text-xs mb-1`}>Username</Text>
+              <Text style={tw`text-white text-sm`}>{userData.nickname}</Text>
+            </View>
+            <View style={tw`bg-[#3A2C20] rounded-lg p-4`}>
+              <Text style={tw`text-[#A97A4D] text-xs mb-1`}>Full Name</Text>
+              <Text style={tw`text-white text-sm`}>{userData.fullName}</Text>
+            </View>
+          </View>
+        )}
+
+        {/* Additional Options */}
+        <View style={tw`mb-6`}>
+          <TouchableOpacity style={tw`flex-row items-center justify-between py-4 border-b border-[#3A2C20]`}>
+            <Text style={tw`text-white text-base`}>Notifications</Text>
+            <Text style={tw`text-[#A97A4D] text-sm`}>›</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={tw`flex-row items-center justify-between py-4 border-b border-[#3A2C20]`}>
+            <Text style={tw`text-white text-base`}>Privacy</Text>
+            <Text style={tw`text-[#A97A4D] text-sm`}>›</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={tw`flex-row items-center justify-between py-4 border-b border-[#3A2C20]`}>
+            <Text style={tw`text-white text-base`}>Help & Support</Text>
+            <Text style={tw`text-[#A97A4D] text-sm`}>›</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={tw`flex-row items-center justify-between py-4 border-b border-[#3A2C20]`}>
+            <Text style={tw`text-white text-base`}>About</Text>
+            <Text style={tw`text-[#A97A4D] text-sm`}>›</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* Logout Button */}
+        <TouchableOpacity
+          style={tw`bg-[#3A2C20] rounded-lg py-3 items-center mt-auto mb-20`}
+          onPress={handleLogout}
+        >
+          <Text style={tw`text-red-500 text-base font-semibold`}>Logout</Text>
+        </TouchableOpacity>
+      </ScrollView>
 
       <BottomNav active="profile" />
     </View>
